@@ -1,4 +1,4 @@
-package com.interviewsystem.interviewsystem;
+package com.interviewsystem;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
