@@ -1,7 +1,8 @@
 package com.interviewsystem.controllers;
 
 import com.interviewsystem.models.entity.Interviewer;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.interviewsystem.services.SchedularService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SchedularController {
 
-    private
+    @Autowired
+    private SchedularService schedularService;
+
     @RequestMapping(method = RequestMethod.POST,value= "/schedular")
-    public Interviewer createInterviewer(@RequestBody Interviewer interviewer){
+    public void showInterviewSchedule(){
 
-        return interviewerService.create(interviewer);
-
+        schedularService.showSchedule();
     }
-
 }

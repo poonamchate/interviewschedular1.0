@@ -1,6 +1,5 @@
 package com.interviewsystem.models.entity;
 
-import javax.annotation.Generated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;

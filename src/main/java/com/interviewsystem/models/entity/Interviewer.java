@@ -1,11 +1,8 @@
 package com.interviewsystem.models.entity;
 
-import com.interviewsystem.models.enums.Priority;
-import javax.persistence.Id;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import java.util.Date;
+import javax.persistence.Id;
 
 @Entity
 public class Interviewer {
@@ -13,12 +10,12 @@ public class Interviewer {
     @Id
     @GeneratedValue
     private int iid;
-    private String iName;
+    private String name;
     private String email;
-    private Date toDate;
-    private Date fromDate;
+    /*private Date toDate;
+    private Date fromDate;*/
     private int contact;
-    private Priority priority;
+    private String priority;
 
     public int getIid() {
         return iid;
@@ -28,19 +25,19 @@ public class Interviewer {
         this.iid = iid;
     }
 
-    public String getiName() {
-        return iName;
+    public String getName() {
+        return name;
     }
 
-    public void setiName(String iName) {
-        this.iName = iName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Priority getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(Priority priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 
@@ -52,7 +49,7 @@ public class Interviewer {
         this.email = email;
     }
 
-    public Date getToDate() {
+    /*public Date getToDate() {
         return toDate;
     }
 
@@ -67,7 +64,7 @@ public class Interviewer {
     public void setFromDate(Date fromDate) {
         this.fromDate = fromDate;
     }
-
+*/
     public int getContact() {
         return contact;
     }

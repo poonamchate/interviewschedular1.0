@@ -1,6 +1,7 @@
 package com.interviewsystem.models.requests;
 
 import com.interviewsystem.models.enums.Priority;
+
 import java.util.Date;
 
 public class Interviewer {
