@@ -2,6 +2,8 @@ package com.interviewsystem.controllers;
 
 import com.interviewsystem.models.entity.Interviewer;
 import com.interviewsystem.models.enums.Priority;
+import com.interviewsystem.models.requests.InterviewerDto;
+import com.interviewsystem.models.requests.InterviewerSechduleDto;
 import com.interviewsystem.services.InterviewerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +17,11 @@ public class InterviewerController {
     @Autowired
     private InterviewerService interviewerService;
 
+    @CrossOrigin(origins = "http://localhost:9090")
     @RequestMapping(method = RequestMethod.POST,value= "/")
-    public Interviewer createInterviewer(@RequestBody com.interviewsystem.models.requests.Interviewer interviewer){
+    public Interviewer createInterviewer(@RequestBody InterviewerDto interviewerDto){
 
-        return interviewerService.create(interviewer);
+        return interviewerService.create(interviewerDto);
 
     }
 
@@ -48,7 +51,7 @@ public class InterviewerController {
     }
 
     @RequestMapping(method = RequestMethod.GET,value= "/contact/{contact}")
-    public List<Interviewer> getInterviewerByEmail(@PathVariable int contact){
+    public List<Interviewer> getInterviewerByContact(@PathVariable int contact){
         return interviewerService.getByContact(contact);
 
     }
@@ -60,9 +63,9 @@ public class InterviewerController {
     }
 
     @RequestMapping(method = RequestMethod.PUT,value= "/")
-    public Interviewer updateInterviewer(@RequestBody com.interviewsystem.models.requests.Interviewer interviewer){
+    public Interviewer updateInterviewer(@RequestBody InterviewerDto interviewerDto){
 
-       return interviewerService.update(interviewer);
+       return interviewerService.update(interviewerDto);
 
     }
 
@@ -70,7 +73,12 @@ public class InterviewerController {
     public void deleteInterviewer(@RequestBody int iid){
 
         interviewerService.delete(iid);
+    }
 
+    @RequestMapping(method = RequestMethod.POST , value = "/schedule")
+    public void scheduleCandidate(@RequestBody InterviewerSechduleDto schedule){
+
+        interviewerService.schedule(schedule);
     }
 
 }

@@ -2,15 +2,13 @@ package com.interviewsystem.models.requests;
 
 import com.interviewsystem.models.enums.Priority;
 
-import java.util.Date;
-
-public class Interviewer {
+public class InterviewerDto {
 
     private int iid;
     private String iName;
     private String email;
-    private Date toDate;
-    private Date fromDate;
+    /*private Date toDate;
+    private Date fromDate;*/
     private int contact;
     private Priority priority;
 
@@ -46,7 +44,7 @@ public class Interviewer {
         this.email = email;
     }
 
-    public Date getToDate() {
+   /* public Date getToDate() {
         return toDate;
     }
 
@@ -60,7 +58,7 @@ public class Interviewer {
 
     public void setFromDate(Date fromDate) {
         this.fromDate = fromDate;
-    }
+    }*/
 
     public int getContact() {
         return contact;

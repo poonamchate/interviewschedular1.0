@@ -1,6 +1,8 @@
 package com.interviewsystem.controllers;
 
 import com.interviewsystem.models.entity.Candidate;
+import com.interviewsystem.models.requests.CandidateDto;
+import com.interviewsystem.models.requests.CandidateScheduleDto;
 import com.interviewsystem.services.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +16,9 @@ public class CandidateController {
     private CandidateService candidateService;
 
     @RequestMapping(method = RequestMethod.POST,value= "/")
-    public Candidate createCandidate(@RequestBody com.interviewsystem.models.requests.Candidate candidate){
+    public Candidate createCandidate(@RequestBody CandidateDto candidateDto){
 
-        return candidateService.create(candidate);
+        return candidateService.create(candidateDto);
 
     }
 
@@ -62,9 +64,9 @@ public class CandidateController {
     }
 
     @RequestMapping(method = RequestMethod.PUT,value= "/")
-    public Candidate updateCandidate(@RequestBody com.interviewsystem.models.requests.Candidate candidate){
+    public Candidate updateCandidate(@RequestBody CandidateDto candidateDto){
 
-        return candidateService.update(candidate);
+        return candidateService.update(candidateDto);
 
     }
 
@@ -73,5 +75,11 @@ public class CandidateController {
 
         candidateService.delete(iid);
 
+    }
+
+    @RequestMapping(method = RequestMethod.POST , value = "/schedule")
+    public void scheduleCandidate(@RequestBody CandidateScheduleDto schedule){
+
+        candidateService.schedule(schedule);
     }
 }

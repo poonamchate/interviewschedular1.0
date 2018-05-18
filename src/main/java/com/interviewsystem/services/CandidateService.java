@@ -1,11 +1,16 @@
 package com.interviewsystem.services;
 
 import com.interviewsystem.models.entity.Candidate;
+import com.interviewsystem.models.entity.CandidateSchdule;
 import com.interviewsystem.models.enums.Priority;
+import com.interviewsystem.models.requests.CandidateDto;
+import com.interviewsystem.models.requests.CandidateScheduleDto;
 import com.interviewsystem.repository.CandidateRepository;
+import com.interviewsystem.repository.CandidateScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
@@ -14,25 +19,28 @@ public class CandidateService {
     @Autowired
     CandidateRepository candidateRepository;
 
+    @Autowired
+    CandidateScheduleRepository candidateScheduleRepository;
+
     public List<Candidate> getAll(){
         return candidateRepository.findAll();
     }
 
-    public Candidate create(com.interviewsystem.models.requests.Candidate candidate){
+    public Candidate create(CandidateDto candidateDto){
 
         Candidate candidateData = new Candidate();
-        candidateData.setExpYears(candidate.getExpYears());
-        candidateData.setName(candidate.getName());
-        String priority = candidate.getExpYears() >= 5 ? Priority.PRIORITY1.getPriority() : Priority.PRIORITY2.getPriority();
+        candidateData.setExpYears(candidateDto.getExpYears());
+        candidateData.setName(candidateDto.getName());
+        String priority = candidateDto.getExpYears() >= 5 ? Priority.PRIORITY1.getPriority() : Priority.PRIORITY2.getPriority();
         candidateData.setPriority(priority);
-        candidateData.setContact(candidate.getContact());
-        candidateData.setEmail(candidate.getEmail());
+        candidateData.setContact(candidateDto.getContact());
+        candidateData.setEmail(candidateDto.getEmail());
 
         return candidateRepository.save(candidateData);
     }
-    public Candidate update(com.interviewsystem.models.requests.Candidate candidate){
+    public Candidate update(CandidateDto candidateDto){
 
-        return create(candidate);
+        return create(candidateDto);
     }
 
     public Candidate getByID(int id){
@@ -68,4 +76,23 @@ public class CandidateService {
         candidateRepository.deleteById(id);
     }
 
+    public void schedule(CandidateScheduleDto schedule){
+
+        CandidateSchdule scheduleData = new CandidateSchdule();
+        scheduleData.setCandidate(candidateRepository.findById(schedule.getCid()).get());
+        scheduleData.setDate(schedule.getDate());
+        scheduleData.setScheduled(false);
+        candidateScheduleRepository.save(scheduleData);
+    }
+
+    @PostConstruct
+    public void dataPopulation(){
+        Candidate candidate = new Candidate();
+        candidate.setName("nishant");
+        candidate.setContact(26532653);
+        candidate.setExpYears(5);
+        candidate.setPriority("P1");
+        candidate.setEmail("test@gmail.com");
+        candidateRepository.save(candidate);
+    }
 }
