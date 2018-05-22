@@ -59,4 +59,5 @@ public class InterviewerSchdule {
     public void setInterviewer(Interviewer interviewer) {
         this.interviewer = interviewer;
     }
+
 }
