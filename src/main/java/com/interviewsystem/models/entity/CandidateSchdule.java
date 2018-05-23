@@ -1,9 +1,6 @@
 package com.interviewsystem.models.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -16,6 +13,7 @@ public class CandidateSchdule {
     @OneToOne
     private Candidate candidate;
 
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     private boolean isScheduled;

@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -80,19 +84,41 @@ public class CandidateService {
 
         CandidateSchdule scheduleData = new CandidateSchdule();
         scheduleData.setCandidate(candidateRepository.findById(schedule.getCid()).get());
-        scheduleData.setDate(schedule.getDate());
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        LocalDate localdate = schedule.getDate().toInstant().atZone(defaultZoneId).toLocalDate();
+        scheduleData.setDate(Date.from(LocalDate.of(localdate.getYear(),localdate.getMonth(),localdate.getDayOfMonth()).atStartOfDay(defaultZoneId).toInstant()));
         scheduleData.setScheduled(false);
         candidateScheduleRepository.save(scheduleData);
+
+        /*schedule.getDate()
+        Date.from(LocalDate.of(2018,5,21).atStartOfDay(ZoneId.systemDefault()).toInstant())*/
     }
 
     @PostConstruct
     public void dataPopulation(){
-        Candidate candidate = new Candidate();
-        candidate.setName("nishant");
-        candidate.setContact(26532653);
-        candidate.setExpYears(5);
-        candidate.setPriority("P1");
-        candidate.setEmail("test@gmail.com");
-        candidateRepository.save(candidate);
+
+        for(int i = 0;i <10 ; i++) {
+            Candidate candidate = new Candidate();
+            candidate.setName("nishant"+i);
+            candidate.setContact(26532653);
+            candidate.setExpYears(i+1);
+            String priority = candidate.getExpYears() >= 5 ? Priority.PRIORITY1.getPriority() : Priority.PRIORITY2.getPriority();
+            candidate.setPriority(priority);
+            candidate.setEmail("test@gmail.com");
+            candidateRepository.save(candidate);
+
+
+            // candidate slot dummy data
+            CandidateSchdule candidateSchdule = new CandidateSchdule();
+            candidateSchdule.setScheduled(false);
+            candidateSchdule.setCandidate(candidate);
+            if(i <= 4)
+                candidateSchdule.setDate(Date.from(LocalDate.of(2018, 5, 21).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            else if(i > 5 && i < 8)
+                candidateSchdule.setDate(Date.from(LocalDate.of(2018, 5, 22).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            else
+                candidateSchdule.setDate(Date.from(LocalDate.of(2018, 5, 23).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            candidateScheduleRepository.save(candidateSchdule);
+        }
     }
 }

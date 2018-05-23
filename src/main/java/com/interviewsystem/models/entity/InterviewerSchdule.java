@@ -14,6 +14,7 @@ public class InterviewerSchdule {
     @OneToOne
     private Interviewer interviewer;
 
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     private String slot;

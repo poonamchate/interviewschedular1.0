@@ -1,5 +1,6 @@
 package com.interviewsystem.services;
 
+import com.interviewsystem.models.entity.CandidateSchdule;
 import com.interviewsystem.models.entity.Interviewer;
 import com.interviewsystem.models.entity.InterviewerSchdule;
 import com.interviewsystem.models.enums.Priority;
@@ -11,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,18 +83,38 @@ public class InterviewerService {
         InterviewerSchdule scheduleData = new InterviewerSchdule();
         Interviewer interviewer = interviewerRepository.findById(schedule.getIid()).get();
         scheduleData.setInterviewer(interviewer);
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        LocalDate localdate = schedule.getDate().toInstant().atZone(defaultZoneId).toLocalDate();
+        scheduleData.setDate(Date.from(LocalDate.of(localdate.getYear(),localdate.getMonth(),localdate.getDayOfMonth()).atStartOfDay(defaultZoneId).toInstant()));
         scheduleData.setDate(schedule.getDate());
         scheduleData.setSlot(schedule.getSlot().getSlot());
         scheduleData.setScheduled(false);
         interviewerSechduleRepository.save(scheduleData);
     }
 
+
     @PostConstruct
     public void dataPopulation(){
-        Interviewer interviewer = new Interviewer();
-        interviewer.setName("nishant");
-        interviewer.setPriority(Priority.PRIORITY1.getPriority());
-        interviewer.setEmail("test@gmail.com");
-        interviewerRepository.save(interviewer);
+
+        for(int i = 0;i <2 ; i++) {
+            Interviewer interviewer = new Interviewer();
+            interviewer.setName("Poonam"+i);
+            interviewer.setPriority(Priority.PRIORITY1.getPriority());
+            interviewer.setEmail("test@gmail.com");
+            interviewerRepository.save(interviewer);
+
+
+            // interviewer slot dummy data
+            InterviewerSchdule interviewerSchdule = new InterviewerSchdule();
+            interviewerSchdule.setScheduled(false);
+            interviewerSchdule.setInterviewer(interviewer);
+            if(i==0)
+                interviewerSchdule.setDate(Date.from(LocalDate.of(2018, 5, 21).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            else
+                interviewerSchdule.setDate(Date.from(LocalDate.of(2018, 5, 22).atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            interviewerSchdule.setSlot("S2");
+            interviewerSechduleRepository.save(interviewerSchdule);
+
+        }
     }
 }
