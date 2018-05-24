@@ -8,10 +8,10 @@ import com.interviewsystem.models.requests.CandidateScheduleDto;
 import com.interviewsystem.repository.CandidateRepository;
 import com.interviewsystem.repository.CandidateScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -26,6 +26,15 @@ public class CandidateService {
     @Autowired
     CandidateScheduleRepository candidateScheduleRepository;
 
+    @Value("${priority.p1}")
+    private int priority1;
+
+    @Value("${priority.p2}")
+    private int priority2;
+
+    @Value("#{'${priority.list}'.split(',')}")
+    private List<String> priorityList;
+
     public List<Candidate> getAll(){
         return candidateRepository.findAll();
     }
@@ -35,7 +44,7 @@ public class CandidateService {
         Candidate candidateData = new Candidate();
         candidateData.setExpYears(candidateDto.getExpYears());
         candidateData.setName(candidateDto.getName());
-        String priority = candidateDto.getExpYears() >= 5 ? Priority.PRIORITY1.getPriority() : Priority.PRIORITY2.getPriority();
+        String priority = candidateDto.getExpYears() >= priority1 ? Priority.PRIORITY1.getPriority() : Priority.PRIORITY2.getPriority();
         candidateData.setPriority(priority);
         candidateData.setContact(candidateDto.getContact());
         candidateData.setEmail(candidateDto.getEmail());

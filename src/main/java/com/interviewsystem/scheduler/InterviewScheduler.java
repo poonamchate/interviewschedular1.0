@@ -11,13 +11,12 @@ import com.interviewsystem.services.CandidateService;
 import com.interviewsystem.services.InterviewerService;
 import com.interviewsystem.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Predicate;
 
 import static java.util.stream.Collectors.*;
 
@@ -42,6 +41,9 @@ public class InterviewScheduler {
     @Autowired
     NotificationService notificationService;
 
+    @Value("#{'${priority.list}'.split(',')}")
+    private List<String> priorityList;
+
     @Scheduled(fixedDelay = 2000 * 60)
     public void scheduleInterviews(){
 
@@ -54,8 +56,8 @@ public class InterviewScheduler {
         interviewerMap = interviewerData.stream().collect(groupingBy(i -> i.getDate() , mapping((InterviewerSchdule i) -> i, toList())));
         candidateMap = candidateData.stream().collect(groupingBy(i -> i.getDate() , mapping((CandidateSchdule i) -> i, toList())));
 
-       // interviewerMap1= interviewerData.stream().collect(groupingBy(i -> i.getDate() , mapping((InterviewerSchdule i) ->
-      //  new InterviewerSlot(i.getInterviewer(),i.getSlot()), toList())));
+        // interviewerMap1= interviewerData.stream().collect(groupingBy(i -> i.getDate() , mapping((InterviewerSchdule i) ->
+        //  new InterviewerSlot(i.getInterviewer(),i.getSlot()), toList())));
 
         System.out.println("interviewerMap1:" + interviewerMap);
 
@@ -88,59 +90,61 @@ public class InterviewScheduler {
             if(candidateList.isEmpty() || interviewerSlotList.isEmpty()){
                 break;
             }else{
-                List<CandidateSchdule> candidateWithPriority1 = candidateList.stream().filter( c-> c.getCandidate().getPriority().equals("P1")).collect(toList());
-                List<CandidateSchdule> candidateWithPriority2 = candidateList.stream().filter( c-> c.getCandidate().getPriority().equals("P2")).collect(toList());
+                List<CandidateSchdule> candidateWithPriority[] = new List[priorityList.size()];
+                /*Collections.sort(priorityList, );*/
+                priorityList.sort(Comparator.reverseOrder());
+/*                int i=0;
+                for(String priority : priorityList){
+                    candidateWithPriority[i] = candidateList.stream().filter( c-> c.getCandidate().getPriority().equals(priority)).collect(toList());
+                    i++;
+                }*/
+               /* List<CandidateSchdule> candidateWithPriority1 = candidateList.stream().filter( c-> c.getCandidate().getPriority().equals("P1")).collect(toList());
+                List<CandidateSchdule> candidateWithPriority2 = candidateList.stream().filter( c-> c.getCandidate().getPriority().equals("P2")).collect(toList());*/
 
                 for(InterviewerSchdule interviewerSchedule : interviewerSlotList){
                     String priority = interviewerSchedule.getInterviewer().getPriority();
                     String slot = interviewerSchedule.getSlot();
-                    if(priority.equals("P1") &&
-                            (!(candidateWithPriority1.isEmpty()) ||  !(candidateWithPriority2.isEmpty()))) {
-
-                        interviewerSchedule.setScheduled(true);
-                        interviewerSlotRepository.save(interviewerSchedule);
-                        CandidateSchdule candidateSchdule;
-                        if (!candidateWithPriority1.isEmpty()) {
-                            candidateSchdule = candidateWithPriority1.get(0);
-                            candidateSchdule.setScheduled(true);
-                            candidateSlotRepository.save(candidateSchdule);
-                            // remove used data from map and list
-                            candidateWithPriority1.remove(candidateSchdule);
-                        } else {
-                            candidateSchdule = candidateWithPriority2.get(0);
-                            candidateSchdule.setScheduled(true);
-                            candidateSlotRepository.save(candidateSchdule);
-                            // remove used data from map and list
-                            candidateWithPriority2.remove(candidateSchdule);
+                    List<CandidateSchdule> candidateSchdule = new ArrayList<>();
+                    //generic solution
+                    for(int j=0 ;j< priorityList.size();j++){
+                        if(priority.equalsIgnoreCase(priorityList.get(j))){
+                            candidateSchdule = candidateList.stream().filter(new Predicate<CandidateSchdule>() {
+                                @Override
+                                public boolean test(CandidateSchdule cs) {
+                                    String currPripority = cs.getCandidate().getPriority();
+                                    for(String p:priorityList){
+                                            if(currPripority.compareTo(p) < 0 || currPripority.equals(priority)){
+                                                return true;
+                                            }
+                                        }
+                                    return false;
+                                    }
+                                }).limit(1).collect(toList());
                         }
-                        Schedular schedular = new Schedular();
-                        schedular.setCid(candidateSchdule.getCandidate());
-                        schedular.setIid(interviewerSchedule.getInterviewer());
-                        schedular.setSlot(slot);
-                        schedular.setScheduledDate(date);
-                        schedularRepository.save(schedular);
-                    }else if( !candidateWithPriority2.isEmpty()){
+                    }
+                    if(!candidateSchdule.isEmpty()){
                         interviewerSchedule.setScheduled(true);
                         interviewerSlotRepository.save(interviewerSchedule);
-                        CandidateSchdule candidateSchdule = candidateWithPriority2.get(0);
-                        candidateSchdule.setScheduled(true);
-                        candidateSlotRepository.save(candidateSchdule);
-                        // remove used data from map and list
-                        candidateWithPriority2.remove(candidateSchdule);
+                        CandidateSchdule candidate = candidateSchdule.get(0);
+                        candidate.setScheduled(true);
+                        candidateSlotRepository.save(candidate);
+                        candidateList.remove(candidate);
+
                         Schedular schedular = new Schedular();
-                        schedular.setCid(candidateSchdule.getCandidate());
+                        schedular.setCid(candidate.getCandidate());
                         schedular.setIid(interviewerSchedule.getInterviewer());
                         schedular.setSlot(slot);
                         schedular.setScheduledDate(date);
                         schedularRepository.save(schedular);
                     }
-                }
+                    //generic solution End
 
+                }
                 // send notification to remaining candidates of both priority.
-                List<Candidate> candidateListForNotify = new ArrayList<>();
+               /* List<Candidate> candidateListForNotify = new ArrayList<>();
                 candidateListForNotify.addAll(candidateWithPriority1.stream().map(cs -> cs.getCandidate()).collect(toList()));
                 candidateListForNotify.addAll(candidateWithPriority2.stream().map(cs -> cs.getCandidate()).collect(toList()));
-                notificationService.notify(candidateListForNotify);
+                notificationService.notify(candidateListForNotify);*/
             }
         }
     }
