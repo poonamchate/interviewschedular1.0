@@ -1,6 +1,5 @@
 package com.interviewsystem.scheduler;
 
-import com.interviewsystem.models.entity.Candidate;
 import com.interviewsystem.models.entity.CandidateSchdule;
 import com.interviewsystem.models.entity.InterviewerSchdule;
 import com.interviewsystem.models.entity.Schedular;

@@ -12,12 +12,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/interviewer")
+@CrossOrigin(origins = "http://localhost:9090")
 public class InterviewerController {
 
     @Autowired
     private InterviewerService interviewerService;
 
-    @CrossOrigin(origins = "http://localhost:9090")
+    /*@CrossOrigin(origins = "http://localhost:9090")*/
     @RequestMapping(method = RequestMethod.POST,value= "/")
     public Interviewer createInterviewer(@RequestBody InterviewerDto interviewerDto){
 

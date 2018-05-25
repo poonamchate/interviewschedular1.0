@@ -1,9 +1,6 @@
 package com.interviewsystem.models.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -12,6 +9,7 @@ public class Schedular {
     @Id
     @GeneratedValue
     private int sid;
+    @Temporal(TemporalType.DATE)
     private Date scheduledDate;
     private String slot;
 
