@@ -9,7 +9,7 @@ public class InterviewerDto {
     private String email;
     /*private Date toDate;
     private Date fromDate;*/
-    private int contact;
+    private String contact;
     private Priority priority;
 
     public int getIid() {
@@ -60,11 +60,11 @@ public class InterviewerDto {
         this.fromDate = fromDate;
     }*/
 
-    public int getContact() {
+    public String getContact() {
         return contact;
     }
 
-    public void setContact(int contact) {
+    public void setContact(String contact) {
         this.contact = contact;
     }
 }

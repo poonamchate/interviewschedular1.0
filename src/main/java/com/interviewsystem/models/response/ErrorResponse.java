@@ -8,6 +8,12 @@ public class ErrorResponse {
     private String message;
     private String code;
 
+    public ErrorResponse(Instant timestamp, String message, String code) {
+        this.timestamp = timestamp;
+        this.message = message;
+        this.code = code;
+    }
+
     public Instant getTimestamp() {
         return timestamp;
     }

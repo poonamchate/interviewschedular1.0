@@ -3,10 +3,12 @@ package com.interviewsystem.services;
 import com.interviewsystem.models.entity.Candidate;
 import com.interviewsystem.models.entity.CandidateSchdule;
 import com.interviewsystem.models.enums.Priority;
+import com.interviewsystem.models.exceptions.InvalidDataException;
 import com.interviewsystem.models.requests.CandidateDto;
 import com.interviewsystem.models.requests.CandidateScheduleDto;
 import com.interviewsystem.repository.CandidateRepository;
 import com.interviewsystem.repository.CandidateScheduleRepository;
+import com.interviewsystem.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,11 @@ public class CandidateService {
 
     public Candidate create(CandidateDto candidateDto){
 
+        if(candidateDto.getExpYears() <= 0 || candidateDto.getContact() == null  ||
+           candidateDto.getEmail() == null || candidateDto.getName() == null){
+
+            throw new InvalidDataException(Constants.INVALID_DATA, "E01");
+        }
         Candidate candidateData = new Candidate();
         candidateData.setExpYears(candidateDto.getExpYears());
         candidateData.setName(candidateDto.getName());
@@ -109,7 +116,7 @@ public class CandidateService {
         for(int i = 0;i <10 ; i++) {
             Candidate candidate = new Candidate();
             candidate.setName("nishant"+i);
-            candidate.setContact(26532653);
+            candidate.setContact("26532653");
             candidate.setExpYears(i+1);
             String priority = candidate.getExpYears() >= 5 ? Priority.PRIORITY1.getPriority() : Priority.PRIORITY2.getPriority();
             candidate.setPriority(priority);

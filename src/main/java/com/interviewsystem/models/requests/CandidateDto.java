@@ -8,7 +8,7 @@ public class CandidateDto {
     private String email;
     /*private Date toDate;
     private Date fromDate;*/
-    private int contact;
+    private String contact;
 
     public int getCid() {
         return cid;
@@ -57,11 +57,11 @@ public class CandidateDto {
         this.fromDate = fromDate;
     }*/
 
-    public int getContact() {
+    public String getContact() {
         return contact;
     }
 
-    public void setContact(int contact) {
+    public void setContact(String contact) {
         this.contact = contact;
     }
 }
