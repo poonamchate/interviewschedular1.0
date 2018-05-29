@@ -7,6 +7,7 @@ public class InvalidDataException extends RuntimeException {
 
     public InvalidDataException(String message, String code){
         super(message);
+        this.message = message;
         this.code = code;
     }
 

@@ -5,6 +5,8 @@ import com.interviewsystem.models.requests.CandidateDto;
 import com.interviewsystem.models.requests.CandidateScheduleDto;
 import com.interviewsystem.services.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -17,64 +19,65 @@ public class CandidateController {
     private CandidateService candidateService;
 
     @RequestMapping(method = RequestMethod.POST,value= "/")
-    public Candidate createCandidate(@RequestBody CandidateDto candidateDto){
+    public ResponseEntity<Candidate> createCandidate(@RequestBody CandidateDto candidateDto){
 
-        return candidateService.create(candidateDto);
+        return new ResponseEntity<>(candidateService.create(candidateDto), HttpStatus.CREATED);
 
     }
 
     @RequestMapping(method = RequestMethod.GET,value= "/")
-    public List<Candidate> getCandidates(){
+    public ResponseEntity<List<Candidate>> getCandidates(){
 
-        return candidateService.getAll();
+        return new ResponseEntity<>(candidateService.getAll(), HttpStatus.OK);
 
     }
 
     @RequestMapping(method = RequestMethod.GET,value= "/id/{iid}")
-    public Candidate getCandidateById(@PathVariable int iid){
-        return candidateService.getByID(iid);
+    public ResponseEntity<Candidate> getCandidateById(@PathVariable int iid){
+
+        return new ResponseEntity<>(candidateService.getByID(iid), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET,value= "/name/{name}")
-    public List<Candidate> getCandidateByName(@PathVariable String name){
-        return candidateService.getByName(name);
+    public ResponseEntity<List<Candidate>> getCandidateByName(@PathVariable String name){
+        return new ResponseEntity<>(candidateService.getByName(name), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET,value= "/email/{email}")
-    public List<Candidate> getCandidateByEmail(@PathVariable String email){
+    public ResponseEntity<List<Candidate>> getCandidateByEmail(@PathVariable String email){
 
-        return candidateService.getByEmail(email);
+        return new ResponseEntity<>(candidateService.getByEmail(email), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET,value= "/experience/{expYears}")
-    public List<Candidate> getCandidateByExperience(@PathVariable int expYears){
+    public ResponseEntity<List<Candidate>> getCandidateByExperience(@PathVariable int expYears){
 
-        return candidateService.getByExperience(expYears);
+        return new ResponseEntity<>(candidateService.getByExperience(expYears), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET,value= "/contact/{contact}")
-    public List<Candidate> getCandidateByContact(@PathVariable int contact){
+    public ResponseEntity<List<Candidate>> getCandidateByContact(@PathVariable int contact){
 
-        return candidateService.getByContact(contact);
+        return new ResponseEntity<>(candidateService.getByContact(contact), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET,value= "/priority/{priority}")
-    public List<Candidate> getCandidateByPriority(@PathVariable String priority){
+    public ResponseEntity<List<Candidate>> getCandidateByPriority(@PathVariable String priority){
 
-        return candidateService.getByPriority(priority);
+        return new ResponseEntity<>(candidateService.getByPriority(priority), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT,value= "/")
-    public Candidate updateCandidate(@RequestBody CandidateDto candidateDto){
+    public ResponseEntity<Candidate> updateCandidate(@RequestBody CandidateDto candidateDto){
 
-        return candidateService.update(candidateDto);
+        return new ResponseEntity<>(candidateService.update(candidateDto), HttpStatus.OK);
 
     }
 
-    @RequestMapping(method = RequestMethod.DELETE,value= "/")
-    public void deleteCandidate(@RequestBody int iid){
+    @RequestMapping(method = RequestMethod.DELETE,value= "/{cid}")
+    public void deleteCandidate(@PathVariable int cid){
 
-        candidateService.delete(iid);
+        candidateService.delete(cid);
 
     }
 

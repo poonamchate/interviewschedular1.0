@@ -13,10 +13,10 @@ public class Schedular {
     private Date scheduledDate;
     private String slot;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Interviewer iid;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Candidate cid;
 
     public int getSid() {

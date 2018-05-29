@@ -10,7 +10,7 @@ public class CandidateSchdule {
     @GeneratedValue
     private int cid;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Candidate candidate;
 
     @Temporal(TemporalType.DATE)

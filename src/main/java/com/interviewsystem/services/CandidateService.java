@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -91,9 +92,11 @@ public class CandidateService {
 
         return candidateRepository.findByPriority(priority);
     }
+    @Transactional
     public void delete(int id){
 
-        candidateRepository.deleteById(id);
+        candidateScheduleRepository.deleteByCandidate(getByID(id));
+        /*candidateRepository.deleteById(id);*/
     }
 
     public void schedule(CandidateScheduleDto schedule){

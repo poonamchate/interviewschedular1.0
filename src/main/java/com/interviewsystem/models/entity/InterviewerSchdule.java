@@ -11,7 +11,7 @@ public class InterviewerSchdule {
     @GeneratedValue
     private int iid;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Interviewer interviewer;
 
     @Temporal(TemporalType.DATE)

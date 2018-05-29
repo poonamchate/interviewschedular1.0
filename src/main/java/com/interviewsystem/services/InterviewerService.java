@@ -1,6 +1,5 @@
 package com.interviewsystem.services;
 
-import com.interviewsystem.models.entity.CandidateSchdule;
 import com.interviewsystem.models.entity.Interviewer;
 import com.interviewsystem.models.entity.InterviewerSchdule;
 import com.interviewsystem.models.enums.Priority;
@@ -12,12 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class InterviewerService {
@@ -40,8 +37,8 @@ public class InterviewerService {
             interviewerData.setPriority(Priority.PRIORITY1.getPriority());
         }else {
             interviewerData.setPriority(interviewerDto.getPriority().getPriority());
-        }if(interviewerDto.getContact() == 0){
-            interviewerData.setContact(12345);
+        }if(interviewerDto.getContact() == null){
+            interviewerData.setContact("12345");
         }else {
             interviewerData.setContact(interviewerDto.getContact());
         }
