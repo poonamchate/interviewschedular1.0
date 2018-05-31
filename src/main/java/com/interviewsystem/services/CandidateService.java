@@ -95,8 +95,13 @@ public class CandidateService {
     @Transactional
     public void delete(int id){
 
-        candidateScheduleRepository.deleteByCandidate(getByID(id));
-        /*candidateRepository.deleteById(id);*/
+        if(candidateScheduleRepository.existsByCandidate(getByID(id))){
+
+            candidateScheduleRepository.deleteByCandidate(getByID(id));
+        }else{
+            candidateRepository.deleteById(id);
+        }
+
     }
 
     public void schedule(CandidateScheduleDto schedule){

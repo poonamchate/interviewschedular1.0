@@ -12,4 +12,5 @@ public interface CandidateScheduleRepository extends JpaRepository<CandidateSchd
 
     List<CandidateSchdule> findByIsScheduledFalse();
     void deleteByCandidate(Candidate candidate);
+    boolean existsByCandidate(Candidate candidate);
 }

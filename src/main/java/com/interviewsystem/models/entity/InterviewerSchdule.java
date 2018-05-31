@@ -2,10 +2,11 @@ package com.interviewsystem.models.entity;
 
 import javax.annotation.Generated;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class InterviewerSchdule {
+public class InterviewerSchdule implements Serializable {
 
     @Id
     @GeneratedValue
