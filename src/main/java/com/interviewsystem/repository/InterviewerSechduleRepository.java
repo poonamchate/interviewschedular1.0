@@ -13,4 +13,6 @@ public interface InterviewerSechduleRepository extends JpaRepository<Interviewer
 
     List<InterviewerSchdule> findByIsScheduledFalse();
     List<String> findSlotByInterviewerAndDate(Interviewer interviewer, Date date);
+    boolean existsByInterviewer(Interviewer interviewer);
+    void deleteByInterviewer(Interviewer interviewer);
 }

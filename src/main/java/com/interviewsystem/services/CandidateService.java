@@ -8,6 +8,7 @@ import com.interviewsystem.models.requests.CandidateDto;
 import com.interviewsystem.models.requests.CandidateScheduleDto;
 import com.interviewsystem.repository.CandidateRepository;
 import com.interviewsystem.repository.CandidateScheduleRepository;
+import com.interviewsystem.repository.SchedularRepository;
 import com.interviewsystem.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,9 @@ public class CandidateService {
 
     @Autowired
     CandidateScheduleRepository candidateScheduleRepository;
+
+    @Autowired
+    SchedularRepository schedularRepository;
 
     @Value("${priority.p1}")
     private int priority1;
@@ -95,13 +99,16 @@ public class CandidateService {
     @Transactional
     public void delete(int id){
 
-        if(candidateScheduleRepository.existsByCandidate(getByID(id))){
+        Candidate candidate = getByID(id);
+        if(candidateScheduleRepository.existsByCandidate(candidate)){
+            if(schedularRepository.existsByCid(candidate)){
+                schedularRepository.deleteByCid(candidate);
+            }
 
-            candidateScheduleRepository.deleteByCandidate(getByID(id));
+            candidateScheduleRepository.deleteByCandidate(candidate);
         }else{
             candidateRepository.deleteById(id);
         }
-
     }
 
     public void schedule(CandidateScheduleDto schedule){

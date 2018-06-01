@@ -1,5 +1,6 @@
 package com.interviewsystem.services;
 
+import com.interviewsystem.models.entity.Candidate;
 import com.interviewsystem.models.entity.Interviewer;
 import com.interviewsystem.models.entity.InterviewerSchdule;
 import com.interviewsystem.models.enums.Priority;
@@ -7,6 +8,7 @@ import com.interviewsystem.models.requests.InterviewerDto;
 import com.interviewsystem.models.requests.InterviewerSechduleDto;
 import com.interviewsystem.repository.InterviewerRepository;
 import com.interviewsystem.repository.InterviewerSechduleRepository;
+import com.interviewsystem.repository.SchedularRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,9 @@ public class InterviewerService {
 
     @Autowired
     InterviewerSechduleRepository interviewerSechduleRepository;
+
+    @Autowired
+    SchedularRepository schedularRepository;
 
     public List<Interviewer> getAll(){
         return interviewerRepository.findAll();
@@ -72,7 +77,18 @@ public class InterviewerService {
     }
     public void delete(int id){
 
-         interviewerRepository.deleteById(id);
+        /* interviewerRepository.deleteById(id);*/
+
+        Interviewer interviewer = getByID(id);
+        if(interviewerSechduleRepository.existsByInterviewer(interviewer)){
+            if(schedularRepository.existsByIid(interviewer)){
+                schedularRepository.deleteByIid(interviewer);
+            }
+
+            interviewerSechduleRepository.deleteByInterviewer(interviewer);
+        }else{
+            interviewerRepository.deleteById(id);
+        }
     }
 
     public void schedule(InterviewerSechduleDto schedule){
