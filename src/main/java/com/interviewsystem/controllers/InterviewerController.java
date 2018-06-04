@@ -52,7 +52,7 @@ public class InterviewerController {
     }
 
     @RequestMapping(method = RequestMethod.GET,value= "/contact/{contact}")
-    public List<Interviewer> getInterviewerByContact(@PathVariable int contact){
+    public List<Interviewer> getInterviewerByContact(@PathVariable String contact){
         return interviewerService.getByContact(contact);
 
     }
@@ -70,8 +70,8 @@ public class InterviewerController {
 
     }
 
-    @RequestMapping(method = RequestMethod.DELETE,value= "/")
-    public void deleteInterviewer(@RequestBody int iid){
+    @RequestMapping(method = RequestMethod.DELETE,value= "/{iid}")
+    public void deleteInterviewer(@PathVariable int iid){
 
         interviewerService.delete(iid);
     }

@@ -11,6 +11,6 @@ public interface InterviewerRepository extends JpaRepository<Interviewer, Intege
 
     List<Interviewer> findByName(String name);
     List<Interviewer> findByEmail(String email);
-    List<Interviewer> findByContact(int contact);
+    List<Interviewer> findByContact(String contact);
     List<Interviewer> findByPriority(String priority);
 }

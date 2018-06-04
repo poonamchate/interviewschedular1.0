@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.Instant;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class CustomeExceptionHandler {
@@ -17,6 +18,13 @@ public class CustomeExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(Instant.now(), e.getMessage(),e.getCode());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ErrorResponse> handleException(NoSuchElementException e){
+        ErrorResponse errorResponse = new ErrorResponse(Instant.now(), e.getMessage(),"E01");
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)

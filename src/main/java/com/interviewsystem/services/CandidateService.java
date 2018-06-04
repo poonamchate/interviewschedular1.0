@@ -75,6 +75,9 @@ public class CandidateService {
 
     public List<Candidate> getByName(String name){
 
+        if(name == null){
+            throw new InvalidDataException(Constants.INVALID_DATA, "E01");
+        }
         return candidateRepository.findByName(name);
     }
 
@@ -84,6 +87,9 @@ public class CandidateService {
     }
     public List<Candidate> getByEmail(String email){
 
+        if(email == null){
+            throw new InvalidDataException(Constants.INVALID_DATA, "E01");
+        }
         return candidateRepository.findByEmail(email);
     }
 
@@ -94,6 +100,9 @@ public class CandidateService {
 
     public List<Candidate> getByPriority(String priority){
 
+        if(priority == null){
+            throw new InvalidDataException(Constants.INVALID_DATA, "E01");
+        }
         return candidateRepository.findByPriority(priority);
     }
     @Transactional

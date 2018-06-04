@@ -1,14 +1,15 @@
 package com.interviewsystem.services;
 
-import com.interviewsystem.models.entity.Candidate;
 import com.interviewsystem.models.entity.Interviewer;
 import com.interviewsystem.models.entity.InterviewerSchdule;
 import com.interviewsystem.models.enums.Priority;
+import com.interviewsystem.models.exceptions.InvalidDataException;
 import com.interviewsystem.models.requests.InterviewerDto;
 import com.interviewsystem.models.requests.InterviewerSechduleDto;
 import com.interviewsystem.repository.InterviewerRepository;
 import com.interviewsystem.repository.InterviewerSechduleRepository;
 import com.interviewsystem.repository.SchedularRepository;
+import com.interviewsystem.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,15 +39,13 @@ public class InterviewerService {
 
         Interviewer interviewerData = new Interviewer();
         interviewerData.setName(interviewerDto.getiName());
-        if(interviewerDto.getPriority() == null){
-            interviewerData.setPriority(Priority.PRIORITY1.getPriority());
-        }else {
-            interviewerData.setPriority(interviewerDto.getPriority().getPriority());
-        }if(interviewerDto.getContact() == null){
-            interviewerData.setContact("12345");
-        }else {
-            interviewerData.setContact(interviewerDto.getContact());
+        if(interviewerDto.getPriority() == null || interviewerDto.getContact() == null ||
+                interviewerDto.getEmail() == null || interviewerDto.getiName() == null){
+
+            throw new InvalidDataException(Constants.INVALID_DATA, "E01");
         }
+        interviewerData.setPriority(interviewerDto.getPriority().getPriority());
+        interviewerData.setContact(interviewerDto.getContact());
         interviewerData.setEmail(interviewerDto.getEmail());
         return interviewerRepository.save(interviewerData);
     }
@@ -61,18 +60,33 @@ public class InterviewerService {
     }
 
     public List<Interviewer> getByName(String name){
+        if(name == null){
+            throw new InvalidDataException(Constants.INVALID_DATA, "E01");
+        }
         return  interviewerRepository.findByName(name);
     }
 
     public List<Interviewer> getByEmail(String email){
+
+        if(email == null){
+            throw new InvalidDataException(Constants.INVALID_DATA, "E01");
+        }
         return  interviewerRepository.findByEmail(email);
     }
 
-    public List<Interviewer> getByContact(int contact){
+    public List<Interviewer> getByContact(String contact){
+
+        if(contact == null){
+            throw new InvalidDataException(Constants.INVALID_DATA, "E01");
+        }
         return  interviewerRepository.findByContact(contact);
     }
 
     public List<Interviewer> getByPriority(Priority priority){
+
+        if(priority == null){
+            throw new InvalidDataException(Constants.INVALID_DATA, "E01");
+        }
         return  interviewerRepository.findByPriority(priority.getPriority());
     }
     public void delete(int id){
