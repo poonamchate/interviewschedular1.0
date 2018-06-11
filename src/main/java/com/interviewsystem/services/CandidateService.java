@@ -10,6 +10,7 @@ import com.interviewsystem.repository.CandidateRepository;
 import com.interviewsystem.repository.CandidateScheduleRepository;
 import com.interviewsystem.repository.SchedularRepository;
 import com.interviewsystem.util.Constants;
+import com.interviewsystem.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,9 @@ public class CandidateService {
     public Candidate create(CandidateDto candidateDto){
 
         if(candidateDto.getExpYears() <= 0 || candidateDto.getContact() == null  ||
-           candidateDto.getEmail() == null || candidateDto.getName() == null){
+           candidateDto.getEmail() == null || candidateDto.getName() == null
+           || !(ValidationUtil.validateName(candidateDto.getName()))
+           || !(ValidationUtil.validateEmail(candidateDto.getEmail()))){
 
             throw new InvalidDataException(Constants.INVALID_DATA, "E01");
         }

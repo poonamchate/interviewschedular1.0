@@ -2,14 +2,33 @@ package com.interviewsystem.models.requests;
 
 import com.interviewsystem.models.enums.Priority;
 
+import javax.validation.constraints.*;
+
 public class InterviewerDto {
 
     private int iid;
+
+    @NotNull
+    @NotBlank
+    @Size(max = 50)
+    @Pattern(regexp = "^[a-zA-Z ]+$")
     private String iName;
+
+    @NotNull
+    @NotBlank
+    @Email
     private String email;
     /*private Date toDate;
     private Date fromDate;*/
+
+    @NotNull
+    @NotBlank
+    @Size(min = 10, max = 10)
+    @Pattern(regexp="(^$|[0-9]{10})")
     private String contact;
+
+    @NotNull
+    @NotBlank
     private Priority priority;
 
     public int getIid() {

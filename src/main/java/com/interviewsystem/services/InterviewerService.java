@@ -10,6 +10,7 @@ import com.interviewsystem.repository.InterviewerRepository;
 import com.interviewsystem.repository.InterviewerSechduleRepository;
 import com.interviewsystem.repository.SchedularRepository;
 import com.interviewsystem.util.Constants;
+import com.interviewsystem.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,9 @@ public class InterviewerService {
         Interviewer interviewerData = new Interviewer();
         interviewerData.setName(interviewerDto.getiName());
         if(interviewerDto.getPriority() == null || interviewerDto.getContact() == null ||
-                interviewerDto.getEmail() == null || interviewerDto.getiName() == null){
+                interviewerDto.getEmail() == null || interviewerDto.getiName() == null
+                || !(ValidationUtil.validateName(interviewerDto.getiName()))
+                || !(ValidationUtil.validateEmail(interviewerDto.getEmail()))){
 
             throw new InvalidDataException(Constants.INVALID_DATA, "E01");
         }

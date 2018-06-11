@@ -1,13 +1,32 @@
 package com.interviewsystem.models.requests;
 
+import javax.validation.constraints.*;
+
 public class CandidateDto {
 
     private int cid;
+
+    @NotNull
+    @NotBlank
+    @Size(max = 50)
+    @Pattern(regexp = "^[a-zA-Z ]+$")
     private String name;
+
+    @NotNull(message = "Experience years should not be null")
+    @NotBlank(message = "Experience years should not be null")
     private int expYears;
+
+    @NotNull
+    @NotBlank
+    @Email
     private String email;
     /*private Date toDate;
     private Date fromDate;*/
+
+    @NotNull
+    @NotBlank
+    @Size(min = 10, max = 10)
+    @Pattern(regexp="(^$|[0-9]{10})")
     private String contact;
 
     public int getCid() {
