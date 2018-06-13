@@ -51,8 +51,8 @@ public class CandidateService {
 
         if(candidateDto.getExpYears() <= 0 || candidateDto.getContact() == null  ||
            candidateDto.getEmail() == null || candidateDto.getName() == null
-           || !(ValidationUtil.validateName(candidateDto.getName()))
-           || !(ValidationUtil.validateEmail(candidateDto.getEmail()))){
+           /*|| !(ValidationUtil.validateName(candidateDto.getName()))
+           || !(ValidationUtil.validateEmail(candidateDto.getEmail()))*/){
 
             throw new InvalidDataException(Constants.INVALID_DATA, "E01");
         }

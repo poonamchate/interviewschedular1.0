@@ -18,7 +18,7 @@ public class SchedularController {
     @Autowired
     private SchedularService schedularService;
 
-    @RequestMapping(method = RequestMethod.GET,value= "/schedular")
+    @RequestMapping(method = RequestMethod.GET,value= "/interviewscheduler/schedular")
     public List<SchedularDto> showInterviewSchedule(){
 
         return schedularService.showSchedule();

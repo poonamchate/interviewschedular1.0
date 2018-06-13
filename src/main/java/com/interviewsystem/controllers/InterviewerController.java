@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/interviewer")
+@RequestMapping("/interviewscheduler/interviewer")
 @CrossOrigin(origins = "http://localhost:9090")
 public class InterviewerController {
 

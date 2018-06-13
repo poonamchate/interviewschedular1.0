@@ -6,27 +6,26 @@ public class CandidateDto {
 
     private int cid;
 
-    @NotNull
-    @NotBlank
-    @Size(max = 50)
-    @Pattern(regexp = "^[a-zA-Z ]+$")
+    @NotNull(message = "Name should not be null")
+    @NotBlank(message = "Name should not be blank")
+    @Size(max = 50, message = "Name size error")
+    @Pattern(regexp = "^[a-zA-Z ]+$", message = "Name incorrect")
     private String name;
 
     @NotNull(message = "Experience years should not be null")
-    @NotBlank(message = "Experience years should not be null")
     private int expYears;
 
-    @NotNull
-    @NotBlank
-    @Email
+    @NotNull(message = "Email should not be null")
+    @NotBlank(message = "Email should not be blank")
+    @Email(message = "Email is incorrect")
     private String email;
     /*private Date toDate;
     private Date fromDate;*/
 
-    @NotNull
-    @NotBlank
-    @Size(min = 10, max = 10)
-    @Pattern(regexp="(^$|[0-9]{10})")
+    @NotNull(message = "contact should not be null")
+    @NotBlank(message = "contact should not be blank")
+    @Size(min = 10, max = 10, message = "contact size is wrong")
+    @Pattern(regexp="(^$|[0-9]{10})", message = "Contact is wrong")
     private String contact;
 
     public int getCid() {

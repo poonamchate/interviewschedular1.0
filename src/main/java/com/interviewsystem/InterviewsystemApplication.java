@@ -17,5 +17,4 @@ public class InterviewsystemApplication {
 		/*Interviewer intr
 		interviewerRepository.save();*/
 	}
-
 }

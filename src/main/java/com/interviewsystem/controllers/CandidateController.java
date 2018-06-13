@@ -8,18 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/candidate")
+@RequestMapping("/interviewscheduler/candidate")
 @CrossOrigin(origins = "http://localhost:9090")
 public class CandidateController {
 
     @Autowired
     private CandidateService candidateService;
 
+
     @RequestMapping(method = RequestMethod.POST,value= "/")
-    public ResponseEntity<Candidate> createCandidate(@RequestBody CandidateDto candidateDto){
+    public ResponseEntity<Candidate> createCandidate(@Valid @RequestBody CandidateDto candidateDto){
 
         return new ResponseEntity<>(candidateService.create(candidateDto), HttpStatus.CREATED);
 
